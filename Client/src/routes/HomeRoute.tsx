@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function HomeRoute() {
   const navigate = useNavigate();
   const { isAuthenticated, isLoading } = useAuth();
+  const { logout } = useAuth0();
 
   // Show loading state while checking authentication
   if (isLoading) {
@@ -43,6 +45,23 @@ export default function HomeRoute() {
                 </Button>
               )}
             </div>
+            {/* LOGOUT BUTTON */}
+            {isAuthenticated && (
+              <Button
+                onClick={() => {
+                  console.log("Logging out");
+                  // Programmatically logout
+                  localStorage.removeItem("auth0_token");
+                  localStorage.removeItem("auth0_id_token");
+                  localStorage.removeItem("auth0_user");
+                  localStorage.removeItem("auth0_expires_at");
+                  logout({ logoutParams: { returnTo: window.location.origin } });
+                  
+                }}
+              >
+                Logout
+              </Button>
+            )}
           </div>
         </div>
       </header>

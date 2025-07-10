@@ -1,0 +1,21 @@
+{
+  "name": "react-nest-ultimate",
+  "version": "1.0.0",
+  "description": "A full-featured MERN (MongoDB, Express.js, React, Node.js) stack template for building modern web applications.",
+  "main": "index.js",
+  "scripts": {
+    "install-full": "cd Server && npm install && cd ../Client && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LironeFitoussi/React-Nest-Ultimate.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/LironeFitoussi/React-Nest-Ultimate/issues"
+  },
+  "homepage": "https://github.com/LironeFitoussi/React-Nest-Ultimate#readme"
+}

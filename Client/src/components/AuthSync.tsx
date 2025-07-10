@@ -18,14 +18,7 @@ export function AuthSync() {
     if (!getAccessTokenSilently) return;
 
     // Set up the token getter with proper type handling
-    setTokenGetter(async () => {
-      try {
-        return await getAccessTokenSilently();
-      } catch (error) {
-        console.error('Error getting access token:', error);
-        throw error;
-      }
-    });
+    setTokenGetter(() => getAccessTokenSilently());
   }, [getAccessTokenSilently]);
 
   // Handle user sync
@@ -39,26 +32,18 @@ export function AuthSync() {
 
     // Don't proceed if still loading Auth0
     if (isAuth0Loading) {
-      console.log('Auth0 still loading...');
       return;
     }
 
     // Only sync if we haven't attempted it yet and have user data
     if (!syncAttempted.current && user?.email && !isInitialSyncComplete) {
-      console.log('Starting initial sync for:', user.email);
       syncAttempted.current = true;
       
-      // Wrap the dispatch in a try-catch to handle potential errors
-      try {
-        dispatch(fetchUserByEmail({
-          email: user.email,
-          firstName: user.given_name || '',
-          lastName: user.family_name || ''
-        }));
-      } catch (error) {
-        console.error('Error during user sync:', error);
-        syncAttempted.current = false; // Reset the attempt flag to allow retrying
-      }
+      // Pass the entire Auth0 user object to handle user creation if needed
+      dispatch(fetchUserByEmail({
+        email: user.email,
+        auth0User: user
+      }));
     }
   }, [
     isAuthenticated,

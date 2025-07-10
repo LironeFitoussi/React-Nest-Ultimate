@@ -26,13 +26,12 @@ export const useUser = () => {
     ) {
       dispatch(fetchUserByEmail({
         email: auth0User.email,
-        firstName: '',
-        lastName: ''
+        auth0User // Pass the entire Auth0 user object
       }));
     } else if (!isAuthenticated && userData.email) {
       dispatch(resetUser());
     }
-  }, [isAuthenticated, auth0User?.email, dispatch, userData.email]);
+  }, [isAuthenticated, auth0User, dispatch, userData.email]); // Updated dependency array to include full auth0User
 
   return {
     isLoading: auth0Loading || userData.isLoading,
@@ -40,7 +39,7 @@ export const useUser = () => {
     user: userData,
     error: userData.error,
   };
-}; 
+};
 
 export const useUserRegex = (regex: string) => {
   const { data, isLoading, error } = useQuery({
