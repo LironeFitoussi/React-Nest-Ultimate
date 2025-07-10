@@ -40,9 +40,14 @@ export default function HomeRoute() {
                   Sign In
                 </Button>
               ) : (
-                <Button onClick={() => navigate('/example')}>
-                  Dashboard
-                </Button>
+                <div className="flex gap-2">
+                  <Button onClick={() => navigate('/example')}>
+                    Dashboard
+                  </Button>
+                  <Button onClick={() => navigate('/test')} variant="outline">
+                    Test API
+                  </Button>
+                </div>
               )}
             </div>
             {/* LOGOUT BUTTON */}
