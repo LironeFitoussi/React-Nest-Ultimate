@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Application</title>
+    <meta name="description" content="A modern web application built with React and Vite" />
+    <meta name="keywords" content="web application, react, vite, typescript" />
+    <meta name="author" content="Developer" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#2563eb" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="My Application" />
+    <meta property="og:description" content="A modern web application built with React and Vite" />
+    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:url" content="https://example.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="My Application" />
+    <meta name="twitter:description" content="A modern web application built with React and Vite" />
+    <meta name="twitter:image" content="/og-image.jpg" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://example.com" />
+    <link href="/src/styles.css" rel="stylesheet">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "My Application",
+        "image": "/og-image.jpg",
+        "@id": "https://example.com",
+        "url": "https://example.com",
+        "description": "A modern web application built with React and Vite"
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
