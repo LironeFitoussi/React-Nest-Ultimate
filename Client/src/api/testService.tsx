@@ -1,43 +1,28 @@
 import axiosInstance from './axiosInstance';
-
-// Types (customize as needed)
-export interface TestItem {
-  id: string;
-  // Add other fields as needed
-  [key: string]: unknown;
-}
-
-export interface CreateTestItemDto {
-  // Fields required to create a TestItem
-  [key: string]: unknown;
-}
-
-export interface UpdateTestItemDto {
-  // Fields required to update a TestItem
-  [key: string]: unknown;
-}
+import type { Test, CreateTest } from '@/types';
+import type { ApiResponseDto } from '@/types/dto';
 
 const endpoint = '/api/v1/tests';
 
 // --- CRUD API functions ---
-export const getAllTests = async (): Promise<TestItem[]> => {
-  const { data } = await axiosInstance.get<TestItem[]>(endpoint);
-  return data;
+export const getAllTests = async (): Promise<Test[]> => {
+  const { data } = await axiosInstance.get<ApiResponseDto<Test[]>>(endpoint);
+  return data.data;
 };
 
-export const getTestById = async (id: string): Promise<TestItem> => {
-  const { data } = await axiosInstance.get<TestItem>(`${endpoint}/${id}`);
-  return data;
+export const getTestById = async (id: string): Promise<Test> => {
+  const { data } = await axiosInstance.get<ApiResponseDto<Test>>(`${endpoint}/${id}`);
+  return data.data;
 };
 
-export const createTest = async (payload: CreateTestItemDto): Promise<TestItem> => {
-  const { data } = await axiosInstance.post<TestItem>(endpoint, payload);
-  return data;
+export const createTest = async (payload: CreateTest): Promise<Test> => {
+  const { data } = await axiosInstance.post<ApiResponseDto<Test>>(endpoint, payload);
+  return data.data;
 };
 
-export const updateTest = async ({ id, payload }: { id: string; payload: UpdateTestItemDto }): Promise<TestItem> => {
-  const { data } = await axiosInstance.put<TestItem>(`${endpoint}/${id}`, payload);
-  return data;
+export const updateTest = async ({ id, payload }: { id: string; payload: Partial<CreateTest> }): Promise<Test> => {
+  const { data } = await axiosInstance.put<ApiResponseDto<Test>>(`${endpoint}/${id}`, payload);
+  return data.data;
 };
 
 export const removeTest = async (id: string): Promise<void> => {

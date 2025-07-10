@@ -5,11 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import * as testService from '@/api/testService';
-import type { CreateTestRequestDto, Test } from '@/types';
+import type { Test, CreateTest } from '@/types';
 
 export default function TestRoute() {
   const [tests, setTests] = useState<Test[]>([]);
-  const [newTest, setNewTest] = useState<CreateTestRequestDto>({
+  const [newTest, setNewTest] = useState<CreateTest>({
     title: '',
     description: ''
   });
@@ -25,7 +25,7 @@ export default function TestRoute() {
     try {
       setLoading(true);
       const response = await testService.getAllTests();
-      setTests(response);
+      setTests(response as unknown as Test[]);
       setError(null);
     } catch (err) {
       setError('Failed to fetch tests');
@@ -39,7 +39,7 @@ export default function TestRoute() {
     try {
       setLoading(true);
       const response = await testService.createTest(newTest);
-      setTests(prev => [...prev, response]);
+      setTests(prev => [...prev, response as unknown as Test]);
       setNewTest({ title: '', description: '' }); // Reset form
       setError(null);
     } catch (err) {
@@ -113,6 +113,9 @@ export default function TestRoute() {
                   <div>
                     <h3 className="font-medium">{test.title}</h3>
                     <p className="text-sm text-gray-600">{test.description}</p>
+                    <p className="text-xs text-gray-400">
+                      Created: {new Date(test.createdAt).toLocaleDateString()}
+                    </p>
                   </div>
                   <Button
                     variant="destructive"
