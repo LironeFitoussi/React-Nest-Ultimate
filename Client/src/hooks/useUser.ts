@@ -22,21 +22,21 @@ export const useUser = () => {
     if (
       isAuthenticated &&
       auth0User?.email &&
-      userData.email !== auth0User.email // Only fetch if not already loaded
+      userData.user?.email !== auth0User.email // Only fetch if not already loaded
     ) {
       dispatch(fetchUserByEmail({
         email: auth0User.email,
         auth0User // Pass the entire Auth0 user object
       }));
-    } else if (!isAuthenticated && userData.email) {
+    } else if (!isAuthenticated && userData.user?.email) {
       dispatch(resetUser());
     }
-  }, [isAuthenticated, auth0User, dispatch, userData.email]); // Updated dependency array to include full auth0User
+  }, [isAuthenticated, auth0User, dispatch, userData.user?.email]); // Updated dependency array to include full auth0User
 
   return {
-    isLoading: auth0Loading || userData.isLoading,
+    isLoading: auth0Loading || userData.status === 'loading',
     isAuthenticated,
-    user: userData,
+    user: userData.user,
     error: userData.error,
   };
 };

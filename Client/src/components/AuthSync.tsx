@@ -15,11 +15,14 @@ export function AuthSync() {
 
   // Set up API token getter
   useEffect(() => {
-    if (!getAccessTokenSilently) return;
-
-    // Set up the token getter with proper type handling
-    setTokenGetter(() => getAccessTokenSilently());
-  }, [getAccessTokenSilently]);
+    if (isAuthenticated && getAccessTokenSilently) {
+      const getToken = async () => {
+        const token = await getAccessTokenSilently();
+        return token;
+      };
+      setTokenGetter(getToken);
+    }
+  }, [isAuthenticated, getAccessTokenSilently]);
 
   // Handle user sync
   useEffect(() => {

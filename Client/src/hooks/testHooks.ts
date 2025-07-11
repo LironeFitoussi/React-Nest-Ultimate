@@ -1,19 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import type { TestItem } from "@/api/testService";
+import type { Test } from "@/types";
 import { getAllTests, getTestById, createTest, updateTest, removeTest } from "@/api/testService";
 
 
 // --- TanStack Query hooks ---
 export function useTests() {
-    return useQuery<TestItem[], Error>({
+    return useQuery<Test[], Error>({
       queryKey: ['tests'],
       queryFn: getAllTests,
     });
   }
   
   export function useTest(id: string) {
-    return useQuery<TestItem, Error>({
+    return useQuery<Test, Error>({
       queryKey: ['tests', id],
       queryFn: () => getTestById(id),
       enabled: !!id,

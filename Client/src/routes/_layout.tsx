@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Home, LogOut } from 'lucide-react';
+import { Home, LogOut, HelpCircle } from 'lucide-react';
 import { useTranslation } from "react-i18next";
 import { useEffect, Suspense } from "react";
 import { useAuth } from '@/hooks/useAuth';
@@ -14,6 +14,7 @@ export default function Layout() {
   
   const navigationItems = [
     { href: '/', label: 'Home', icon: Home },
+    { href: '/test', label: 'Test', icon: HelpCircle },
   ];
 
   const isActive = (href: string) => {

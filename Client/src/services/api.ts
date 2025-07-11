@@ -10,10 +10,22 @@ import type {
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
 
 // Auth0 token getter - this will be set by the app
-let getAccessToken: (() => Promise<string>) | null = null;
+let getAccessTokenFn: (() => Promise<string>) | null = null;
 
 export const setTokenGetter = (tokenGetter: () => Promise<string>) => {
-  getAccessToken = tokenGetter;
+  getAccessTokenFn = tokenGetter;
+};
+
+export const getAccessToken = async () => {
+  try {
+    if (!getAccessTokenFn) {
+      throw new Error('Token getter not set');
+    }
+    const token = await getAccessTokenFn();
+    return token;
+  } catch (error) {
+    return null;
+  }
 };
 
 // Generic API call function with error handling
@@ -21,9 +33,9 @@ async function apiCall<T>(endpoint: string, options: RequestInit = {}): Promise<
   let token = '';
   
   // Get token from Auth0
-  if (getAccessToken) {
+  if (getAccessTokenFn) {
     try {
-      token = await getAccessToken();
+      token = await getAccessTokenFn();
     } catch (error) {
       console.error('Failed to get access token:', error);
       throw new Error('Authentication required');

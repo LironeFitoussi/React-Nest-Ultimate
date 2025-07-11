@@ -43,7 +43,6 @@ export default function AddUserForms({
     },
     onError: (error: Error) => {
       toast.error(error.message || "Failed to create user");
-      console.error("Failed to create user:", error);
     },
   });
 

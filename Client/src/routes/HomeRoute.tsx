@@ -54,7 +54,6 @@ export default function HomeRoute() {
             {isAuthenticated && (
               <Button
                 onClick={() => {
-                  console.log("Logging out");
                   // Programmatically logout
                   localStorage.removeItem("auth0_token");
                   localStorage.removeItem("auth0_id_token");

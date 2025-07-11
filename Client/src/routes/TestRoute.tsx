@@ -29,7 +29,6 @@ export default function TestRoute() {
       setError(null);
     } catch (err) {
       setError('Failed to fetch tests');
-      console.error('Error fetching tests:', err);
     } finally {
       setLoading(false);
     }
@@ -44,7 +43,6 @@ export default function TestRoute() {
       setError(null);
     } catch (err) {
       setError('Failed to create test');
-      console.error('Error creating test:', err);
     } finally {
       setLoading(false);
     }
@@ -58,7 +56,6 @@ export default function TestRoute() {
       setError(null);
     } catch (err) {
       setError('Failed to delete test');
-      console.error('Error deleting test:', err);
     } finally {
       setLoading(false);
     }

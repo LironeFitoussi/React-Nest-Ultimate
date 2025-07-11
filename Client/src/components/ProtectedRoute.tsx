@@ -1,49 +1,36 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import type { RootState } from '@/store';
-import { useAuth } from '@/hooks/useAuth';
-import { PageLoader } from './Atoms/LoadingSpinner';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useUser } from '../hooks/useUser';
 
 interface ProtectedRouteProps {
-  element: React.ReactNode;
+  element: React.ReactElement | null;
   allowedRoles?: string[];
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, allowedRoles = [] }) => {
+const ProtectedRoute = ({ element, allowedRoles = [] }: ProtectedRouteProps) => {
+  const { isAuthenticated } = useAuth0();
+  const { user } = useUser();
   const location = useLocation();
-  const { role, id, isLoading: isUserLoading } = useSelector((state: RootState) => state.user);
-  const { isInitialSyncComplete } = useSelector((state: RootState) => state.authSync);
-  const { isLoading: isAuth0Loading, isAuthenticated } = useAuth();
 
-  // Show loading state while either Auth0 or user data is being fetched
-  if (isAuth0Loading || isUserLoading || (isAuthenticated && !isInitialSyncComplete)) {
-    return <PageLoader text="Loading user data..." />;
-  }
-
-  // Check if user is authenticated with Auth0
   if (!isAuthenticated) {
-    console.log('Not authenticated with Auth0');
-    return <Navigate to="/auth" state={{ from: location }} replace />;
+    return <Navigate to="/auth/signin" state={{ from: location }} replace />;
   }
 
-  // Check if we have user data from our backend
-  if (!id || !role) {
-    console.log('No user data from backend', { id, role });
-    return <Navigate to="/auth" state={{ from: location }} replace />;
+  // If no user data is loaded yet, redirect to signin
+  if (!user) {
+    return <Navigate to="/auth/signin" state={{ from: location }} replace />;
   }
 
-  // Only check roles after all loading is complete and we have user data
-  if (allowedRoles.length > 0 && !allowedRoles.includes(role)) {
-    console.log('Role not allowed:', { userRole: role, allowedRoles });
+  // Check if user has required role
+  if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
     return <Navigate to="/" replace />;
   }
 
-  // If all checks pass, render the protected component
   if (!element) {
-    console.error('ProtectedRoute: element prop is null or undefined');
-    return <Navigate to="/" replace />;
+    throw new Error('ProtectedRoute: element prop is null or undefined');
   }
-  return <>{element}</>;
+
+  return element;
 };
 
 export default ProtectedRoute; 
