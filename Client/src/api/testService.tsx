@@ -2,7 +2,7 @@ import axiosInstance from './axiosInstance';
 import type { Test, CreateTest } from '@/types';
 import type { ApiResponseDto } from '@/types/dto';
 
-const endpoint = '/api/v1/tests';
+const endpoint = '/tests';
 
 // --- CRUD API functions ---
 export const getAllTests = async (): Promise<Test[]> => {

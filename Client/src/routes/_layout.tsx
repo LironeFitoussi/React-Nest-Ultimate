@@ -1,5 +1,5 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Home, LogOut, HelpCircle } from 'lucide-react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { LogOut, HelpCircle, LayoutDashboard } from 'lucide-react';
 import { useTranslation } from "react-i18next";
 import { useEffect, Suspense } from "react";
 import { useAuth } from '@/hooks/useAuth';
@@ -10,11 +10,11 @@ export default function Layout() {
   const { i18n } = useTranslation();
   const dir = i18n.language === 'he' ? 'rtl' : 'ltr';
   const location = useLocation();
-  const { isAuthenticated, isLoading, logout } = useAuth();
-  
+  const { isLoading, logout } = useAuth();
+  const navigate = useNavigate();
   const navigationItems = [
-    { href: '/', label: 'Home', icon: Home },
-    { href: '/dashboard', label: 'Dashboard', icon: HelpCircle },
+    { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/test', label: 'Test', icon: HelpCircle },
   ];
 
   const isActive = (href: string) => {
@@ -38,8 +38,17 @@ export default function Layout() {
   const publicRoutes = ['/', '/auth'];
   const isPublicRoute = publicRoutes.includes(location.pathname);
 
-  // Show full-width layout for public routes or when not authenticated
-  if (isPublicRoute || (!isAuthenticated && !isLoading)) {
+  // Show loading state while authentication is being checked
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <PageLoader text="Loading your session..." />
+      </div>
+    );
+  }
+
+  // Show full-width layout for public routes
+  if (isPublicRoute) {
     return (
       <div className="min-h-screen">
         <Suspense fallback={<PageLoader />}>
@@ -49,14 +58,15 @@ export default function Layout() {
     );
   }
 
-  // Show sidebar layout for authenticated users
+  // For protected routes, always show the sidebar layout
+  // Let ProtectedRoute handle the authentication logic
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
       <aside className="w-64 bg-slate-800 text-white flex flex-col">
         {/* Logo */}
         <div className="p-4">
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-3 mb-8 cursor-pointer" onClick={() => navigate('/')}>
             <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">A</span>
             </div>

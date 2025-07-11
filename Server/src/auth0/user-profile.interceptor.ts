@@ -25,22 +25,36 @@ export class UserProfileInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler,
   ): Promise<Observable<any>> {
+    console.log('🔍 UserProfileInterceptor - Starting intercept');
     const request = context.switchToHttp().getRequest<Request>();
     const token = this.extractTokenFromHeader(request);
 
     if (!token) {
+      console.log('❌ UserProfileInterceptor - No token provided');
       throw new UnauthorizedException('No token provided');
     }
 
     try {
+      console.log('🔍 UserProfileInterceptor - Getting Auth0 user profile');
       const auth0User = await this.auth0Service.getUserProfile(token);
+      console.log('✅ UserProfileInterceptor - Got Auth0 user:', auth0User.email);
+      
       await this.ensureUserExists(auth0User);
+      
+      const dbUser = await this.getUserFromDatabase(auth0User);
+      console.log('✅ UserProfileInterceptor - Got database user:', { email: dbUser.email, role: dbUser.role });
       
       // Add user info to request object
       (request as RequestWithUser).user = {
-        ...await this.getUserFromDatabase(auth0User),
+        ...dbUser,
         ...auth0User,
       };
+
+      console.log('✅ UserProfileInterceptor - Merged user data:', { 
+        email: (request as RequestWithUser).user.email, 
+        role: (request as RequestWithUser).user.role,
+        sub: (request as RequestWithUser).user.sub 
+      });
 
       return next.handle();
     } catch (error) {

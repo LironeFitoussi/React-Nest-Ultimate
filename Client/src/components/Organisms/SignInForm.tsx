@@ -76,13 +76,22 @@ export default function SignInForm({switchMode}: {switchMode: () => void}) {
     }
   }
 
-  const handleGoogleSignIn = () => {
-    setIsLoading(true)
-    loginWithRedirect({
-      authorizationParams: { 
-        connection: 'google-oauth2'
-      }
-    })
+  const handleGoogleSignIn = async () => {
+    try {
+      setIsLoading(true)
+      await loginWithRedirect({
+        authorizationParams: {
+          connection: 'google-oauth2',
+          screen_hint: 'signin',
+          prompt: 'select_account'
+        }
+      })
+    } catch (error) {
+      console.error('Google Sign In error:', error)
+      setError('Failed to sign in with Google. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   if (isAuthenticated && user) {
@@ -175,8 +184,17 @@ export default function SignInForm({switchMode}: {switchMode: () => void}) {
             onClick={handleGoogleSignIn}
             disabled={isLoading}
           >
-            <FcGoogle className="mr-2 h-4 w-4" />
-            Sign In with Google
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Connecting to Google...
+              </>
+            ) : (
+              <>
+                <FcGoogle className="mr-2 h-4 w-4" />
+                Sign In with Google
+              </>
+            )}
           </Button>
         </CardContent>
         <div className="pb-4">

@@ -4,7 +4,6 @@ import type { ApiResponseDto } from '@/types/dto';
 import { User as Auth0User } from '@auth0/auth0-react';
 import { AxiosError } from 'axios';
 
-// The global prefix 'api/v1' is already set in the server's main.ts
 const endpoint = '/users';
 
 // --- CRUD API functions ---

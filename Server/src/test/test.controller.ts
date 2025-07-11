@@ -1,22 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { TestService } from './test.service';
 import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { Auth0Guard } from '../auth0/auth0.guard';
-import { Request } from 'express';
+import { AdminGuard } from '../user/user.guard';
 
 @Controller('tests')
 @UseGuards(Auth0Guard)
 export class TestController {
   constructor(private readonly testService: TestService) {}
 
+  @UseGuards(AdminGuard)
   @Post()
-  async create(@Body() createTestDto: CreateTestDto, @Req() request: Request) {
-    console.log('📝 TestController.create - Creating test with data:', createTestDto);
-    console.log('🔑 TestController.create - User:', request.user);
+  async create(@Body() createTestDto: CreateTestDto) {
 
     const test = await this.testService.create(createTestDto);
-    console.log('✅ TestController.create - Test created successfully:', test._id?.toString());
 
     return {
       success: true,
@@ -26,12 +24,8 @@ export class TestController {
   }
 
   @Get()
-  async findAll(@Req() request: Request) {
-    console.log('📋 TestController.findAll - Getting all tests');
-    console.log('🔑 TestController.findAll - User:', request.user);
-
+  async findAll() {
     const tests = await this.testService.findAll();
-    console.log(`✅ TestController.findAll - Found ${tests.length} tests`);
 
     return {
       success: true,
@@ -41,12 +35,8 @@ export class TestController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string, @Req() request: Request) {
-    console.log('🔍 TestController.findOne - Getting test:', id);
-    console.log('🔑 TestController.findOne - User:', request.user);
-
+  async findOne(@Param('id') id: string) {
     const test = await this.testService.findOne(id);
-    console.log('✅ TestController.findOne - Test found:', test._id?.toString());
 
     return {
       success: true,
@@ -59,14 +49,8 @@ export class TestController {
   async update(
     @Param('id') id: string,
     @Body() updateTestDto: UpdateTestDto,
-    @Req() request: Request
   ) {
-    console.log('📝 TestController.update - Updating test:', id);
-    console.log('🔑 TestController.update - User:', request.user);
-    console.log('📄 TestController.update - Update data:', updateTestDto);
-
     const test = await this.testService.update(id, updateTestDto);
-    console.log('✅ TestController.update - Test updated successfully:', test._id?.toString());
 
     return {
       success: true,
@@ -76,12 +60,8 @@ export class TestController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string, @Req() request: Request) {
-    console.log('🗑️ TestController.remove - Deleting test:', id);
-    console.log('🔑 TestController.remove - User:', request.user);
-
+  async remove(@Param('id') id: string) {
     await this.testService.remove(id);
-    console.log('✅ TestController.remove - Test deleted successfully:', id);
 
     return {
       success: true,

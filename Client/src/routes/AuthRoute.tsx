@@ -2,18 +2,40 @@ import SignInForm from "@/components/Organisms/SignInForm";
 import SignUpForm from "@/components/Organisms/SignUpForm";
 import { useState } from "react";
 import { useAuth } from '@/hooks/useAuth';
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 export default function AuthRoute() {
     const [isSignIn, setIsSignIn] = useState(true)
-    const { isAuthenticated } = useAuth()
+    const { isAuthenticated, isLoading } = useAuth()
+    const location = useLocation()
+    
+    // Debug logging
+    // console.log('AuthRoute Debug:', {
+    //     pathname: location.pathname,
+    //     isAuthenticated,
+    //     isLoading,
+    //     fromState: location.state?.from?.pathname
+    // });
     
     const handleSwitchMode = () => {
         setIsSignIn(!isSignIn)
     }
     
+    // Show loading while auth state is being determined
+    if (isLoading) {
+        return <div className="h-screen flex items-center justify-center">
+            <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                <p className="mt-2 text-gray-600">Checking authentication...</p>
+            </div>
+        </div>
+    }
+    
     if (isAuthenticated) {
-        return <Navigate to="/" />
+        // Redirect to the intended page or home page
+        const from = location.state?.from?.pathname || '/'
+        console.log('AuthRoute: Redirecting authenticated user to:', from);
+        return <Navigate to={from} replace />
     }
     
     return (
