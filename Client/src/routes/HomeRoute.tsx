@@ -1,8 +1,29 @@
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { useAuth0 } from "@auth0/auth0-react";
 import LanguageSwitcher from '@/components/Molecules/LanguageSwitcher';
+import { 
+  Zap, 
+  Shield, 
+  Palette, 
+  Database, 
+  Smartphone, 
+  Code, 
+  Globe,
+  Layers,
+  Server,
+  Sparkles,
+  GitBranch,
+  Cpu,
+  Settings,
+  CheckCircle,
+  ArrowRight,
+  ExternalLink
+} from 'lucide-react';
 
 export default function HomeRoute() {
   const navigate = useNavigate();
@@ -13,30 +34,167 @@ export default function HomeRoute() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mx-auto mb-4 animate-pulse">
+        <motion.div 
+          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <motion.div 
+            className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mx-auto mb-4"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          >
             <span className="text-white font-bold text-lg">A</span>
-          </div>
+          </motion.div>
           <p className="text-gray-600">Loading...</p>
-        </div>
+        </motion.div>
       </div>
     );
   }
 
+  const techStack = [
+    {
+      name: "React 19",
+      icon: <Code className="w-6 h-6" />,
+      color: "from-blue-400 to-blue-600",
+      description: "Latest React with hooks, suspense, and concurrent features"
+    },
+    {
+      name: "NestJS",
+      icon: <Server className="w-6 h-6" />,
+      color: "from-red-400 to-red-600",
+      description: "Enterprise-grade Node.js backend framework"
+    },
+    {
+      name: "TypeScript",
+      icon: <Code className="w-6 h-6" />,
+      color: "from-blue-500 to-blue-700",
+      description: "Type-safe development with modern ES features"
+    },
+    {
+      name: "Auth0",
+      icon: <Shield className="w-6 h-6" />,
+      color: "from-orange-400 to-orange-600",
+      description: "Enterprise authentication and authorization"
+    },
+    {
+      name: "Tailwind CSS",
+      icon: <Palette className="w-6 h-6" />,
+      color: "from-teal-400 to-teal-600",
+      description: "Utility-first CSS framework for rapid UI development"
+    },
+    {
+      name: "Vite",
+      icon: <Zap className="w-6 h-6" />,
+      color: "from-purple-400 to-purple-600",
+      description: "Lightning-fast build tool with HMR"
+    },
+    {
+      name: "Redux Toolkit",
+      icon: <Database className="w-6 h-6" />,
+      color: "from-violet-400 to-violet-600",
+      description: "Predictable state management with modern Redux"
+    },
+    {
+      name: "Framer Motion",
+      icon: <Sparkles className="w-6 h-6" />,
+      color: "from-pink-400 to-pink-600",
+      description: "Production-ready motion library for React"
+    }
+  ];
+
+  const features = [
+    {
+      icon: <Layers className="w-8 h-8" />,
+      title: "Modular Architecture",
+      description: "Clean separation of concerns with atomic design principles",
+      details: ["Atoms, Molecules, Organisms", "Reusable components", "Scalable structure"]
+    },
+    {
+      icon: <Shield className="w-8 h-8" />,
+      title: "Enterprise Security",
+      description: "Production-ready authentication with Auth0 integration",
+      details: ["JWT tokens", "Protected routes", "Role-based access", "Logout management"]
+    },
+    {
+      icon: <Smartphone className="w-8 h-8" />,
+      title: "Mobile-First Design",
+      description: "Responsive layout with mobile drawer navigation",
+      details: ["Drawer navigation", "Touch-friendly", "Fluid animations", "PWA ready"]
+    },
+    {
+      icon: <Globe className="w-8 h-8" />,
+      title: "Internationalization",
+      description: "Multi-language support with i18next",
+      details: ["RTL support", "Dynamic translations", "Language switching", "Locale detection"]
+    },
+    {
+      icon: <Database className="w-8 h-8" />,
+      title: "State Management",
+      description: "Redux Toolkit with RTK Query for data fetching",
+      details: ["Normalized state", "Async thunks", "RTK Query", "DevTools support"]
+    },
+    {
+      icon: <Cpu className="w-8 h-8" />,
+      title: "Performance Optimized",
+      description: "Code splitting, lazy loading, and optimized bundle",
+      details: ["Tree shaking", "Code splitting", "Lazy routes", "Bundle analysis"]
+    }
+  ];
+
+  const projectStructure = [
+    {
+      name: "Client (React)",
+      path: "/Client",
+      items: [
+        "📦 components/ - Atomic design components",
+        "🎣 hooks/ - Custom React hooks",
+        "🗂️ store/ - Redux store and slices",
+        "🛣️ routes/ - React Router pages",
+        "🎨 components/ui/ - Shadcn/ui components",
+        "🌐 locales/ - i18next translations",
+        "🔧 services/ - API service layer"
+      ]
+    },
+    {
+      name: "Server (NestJS)",
+      path: "/Server",
+      items: [
+        "🛡️ auth0/ - Authentication module",
+        "👤 user/ - User management",
+        "🏥 health/ - Health check endpoints",
+        "🧪 test/ - Test module",
+        "🎯 Guards - Route protection",
+        "📊 Interceptors - Request/response handling"
+      ]
+    }
+  ];
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
-      <header className=" bg-white/80 backdrop-blur-md sticky top-0 z-50">
+      <motion.header 
+        className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-white/20"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <motion.div 
+              className="flex items-center gap-3"
+              whileHover={{ scale: 1.02 }}
+            >
+              <motion.div 
+                className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center"
+                whileHover={{ rotate: 5 }}
+              >
                 <span className="text-white font-bold text-sm">A</span>
-              </div>
+              </motion.div>
               <h1 className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                React-Nest Template
+                React-Nest Ultimate
               </h1>
-            </div>
+            </motion.div>
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
               {!isAuthenticated && (
@@ -66,30 +224,58 @@ export default function HomeRoute() {
             </div>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Hero Section */}
       <section className="flex-1 flex items-center justify-center py-20 px-6">
-        <div className="text-center max-w-4xl mx-auto">
-          <div className="mb-8">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+        <div className="text-center max-w-6xl mx-auto">
+          <motion.div 
+            className="mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.div 
+              className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
+              whileHover={{ scale: 1.05, rotate: 5 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
               <span className="text-white font-bold text-2xl">A</span>
-            </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            </motion.div>
+            <motion.h1 
+              className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               React + NestJS
-            </h1>
-            <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">
-              Ultimate Full-Stack Template
-            </h2>
-          </div>
+            </motion.h1>
+            <motion.h2 
+              className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              Enterprise Full-Stack Template
+            </motion.h2>
+          </motion.div>
           
-          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-            A modern, production-ready template combining React with TypeScript frontend 
-            and NestJS backend, featuring Auth0 authentication, beautiful UI components, 
-            and best practices out of the box.
-          </p>
+          <motion.p 
+            className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            Production-ready template with modern architecture, enterprise security, mobile-first design, 
+            and comprehensive developer experience. Built with React 19, NestJS, TypeScript, Auth0, and more.
+          </motion.p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+          >
             {!isAuthenticated ? (
               <>
                 <Button 
@@ -97,7 +283,7 @@ export default function HomeRoute() {
                   onClick={() => navigate('/auth')}
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
                 >
-                  Get Started
+                  Get Started <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
                 <Button 
                   size="lg"
@@ -105,7 +291,8 @@ export default function HomeRoute() {
                   onClick={() => navigate('/test')}
                   className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 text-lg font-semibold"
                 >
-                  View Demo
+                  <ExternalLink className="w-5 h-5 mr-2" />
+                  Live Demo
                 </Button>
               </>
             ) : (
@@ -115,7 +302,7 @@ export default function HomeRoute() {
                   onClick={() => navigate('/dashboard')}
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
                 >
-                  Go to Dashboard
+                  Dashboard <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
                 <Button 
                   size="lg"
@@ -123,90 +310,165 @@ export default function HomeRoute() {
                   onClick={() => navigate('/test')}
                   className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 text-lg font-semibold"
                 >
-                  Explore Features
+                  <Settings className="w-5 h-5 mr-2" />
+                  Features
                 </Button>
               </>
             )}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Features Section */}
       <section className="py-20 px-6 bg-white">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
+        <div className="container mx-auto max-w-7xl">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-              Everything You Need
+              Enterprise Features
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Built with modern technologies and best practices for scalable applications
+              Everything you need for modern, scalable applications
             </p>
-          </div>
+          </motion.div>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Feature 1 */}
-            <div className="text-center p-8 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 hover:shadow-lg transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mx-auto mb-6">
-                <span className="text-white font-bold text-xl">⚡</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Fast & Modern</h3>
-              <p className="text-gray-600">
-                Built with Vite, React 18, and NestJS for lightning-fast development and optimal performance.
-              </p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="text-center p-8 rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 hover:shadow-lg transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mx-auto mb-6">
-                <span className="text-white font-bold text-xl">🔐</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Secure Authentication</h3>
-              <p className="text-gray-600">
-                Auth0 integration with JWT tokens, protected routes, and user management out of the box.
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="text-center p-8 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 border border-green-100 hover:shadow-lg transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mx-auto mb-6">
-                <span className="text-white font-bold text-xl">🎨</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Beautiful UI</h3>
-              <p className="text-gray-600">
-                Shadcn/ui components with Tailwind CSS for stunning, responsive designs that work everywhere.
-              </p>
-            </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Card className="h-full hover:shadow-lg transition-all duration-300 border-0 shadow-md">
+                  <CardHeader>
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mb-4 text-white">
+                      {feature.icon}
+                    </div>
+                    <CardTitle className="text-xl">{feature.title}</CardTitle>
+                    <CardDescription className="text-gray-600">
+                      {feature.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      {feature.details.map((detail, idx) => (
+                        <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
+                          <CheckCircle className="w-4 h-4 text-green-500" />
+                          {detail}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Tech Stack Section */}
       <section className="py-20 px-6 bg-gradient-to-br from-slate-50 to-slate-100">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-            Powered by Modern Tech Stack
-          </h2>
-          <p className="text-xl text-gray-600 mb-12">
-            Industry-leading technologies for robust, scalable applications
-          </p>
+        <div className="container mx-auto max-w-6xl">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+              Modern Tech Stack
+            </h2>
+            <p className="text-xl text-gray-600 mb-8">
+              Industry-leading technologies for enterprise applications
+            </p>
+          </motion.div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { name: "React", color: "from-blue-400 to-blue-600" },
-              { name: "NestJS", color: "from-red-400 to-red-600" },
-              { name: "TypeScript", color: "from-blue-500 to-blue-700" },
-              { name: "Auth0", color: "from-orange-400 to-orange-600" },
-              { name: "Tailwind", color: "from-teal-400 to-teal-600" },
-              { name: "Vite", color: "from-purple-400 to-purple-600" },
-              { name: "Redux", color: "from-violet-400 to-violet-600" },
-              { name: "Axios", color: "from-green-400 to-green-600" }
-            ].map((tech, index) => (
-              <div key={index} className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-                <div className={`w-12 h-12 bg-gradient-to-br ${tech.color} rounded-lg flex items-center justify-center mx-auto mb-3`}>
-                  <span className="text-white font-bold text-sm">{tech.name.charAt(0)}</span>
-                </div>
-                <span className="text-gray-700 font-medium">{tech.name}</span>
-              </div>
+            {techStack.map((tech, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <Card className="p-6 text-center hover:shadow-lg transition-all duration-300 border-0 shadow-md">
+                  <div className={`w-12 h-12 bg-gradient-to-br ${tech.color} rounded-lg flex items-center justify-center mx-auto mb-4 text-white`}>
+                    {tech.icon}
+                  </div>
+                  <h3 className="font-semibold text-gray-800 mb-2">{tech.name}</h3>
+                  <p className="text-sm text-gray-600">{tech.description}</p>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Project Structure Section */}
+      <section className="py-20 px-6 bg-white">
+        <div className="container mx-auto max-w-6xl">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+              Project Architecture
+            </h2>
+            <p className="text-xl text-gray-600">
+              Clean, organized structure for maintainable code
+            </p>
+          </motion.div>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {projectStructure.map((section, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: index === 0 ? -20 : 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                viewport={{ once: true }}
+              >
+                <Card className="h-full border-0 shadow-md">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <GitBranch className="w-5 h-5" />
+                      {section.name}
+                    </CardTitle>
+                    <CardDescription>
+                      <Badge variant="secondary">{section.path}</Badge>
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      {section.items.map((item, idx) => (
+                        <motion.li
+                          key={idx}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.4, delay: idx * 0.1 }}
+                          viewport={{ once: true }}
+                          className="text-sm text-gray-600 bg-gray-50 p-2 rounded-md"
+                        >
+                          {item}
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -215,30 +477,37 @@ export default function HomeRoute() {
       {/* CTA Section */}
       <section className="py-20 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Build Something Amazing?
-          </h2>
-          <p className="text-xl mb-8 opacity-90">
-            Start your next project with our comprehensive template and save weeks of development time.
-          </p>
-          
-          {!isAuthenticated ? (
-            <Button 
-              size="lg"
-              onClick={() => navigate('/auth')}
-              className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
-            >
-              Get Started Now
-            </Button>
-          ) : (
-            <Button 
-              size="lg"
-              onClick={() => navigate('/dashboard')}
-              className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
-            >
-              Continue to Dashboard
-            </Button>
-          )}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Ready to Build Enterprise Applications?
+            </h2>
+            <p className="text-xl mb-8 opacity-90">
+              Start with our comprehensive template and accelerate your development process
+            </p>
+            
+            {!isAuthenticated ? (
+              <Button 
+                size="lg"
+                onClick={() => navigate('/auth')}
+                className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
+              >
+                Get Started Free <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            ) : (
+              <Button 
+                size="lg"
+                onClick={() => navigate('/dashboard')}
+                className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
+              >
+                Continue to Dashboard <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            )}
+          </motion.div>
         </div>
       </section>
 
@@ -246,14 +515,19 @@ export default function HomeRoute() {
       <footer className="border-t py-8 bg-white">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-3">
+            <motion.div 
+              className="flex items-center gap-3"
+              whileHover={{ scale: 1.02 }}
+            >
               <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xs">A</span>
               </div>
               <span className="text-gray-600 font-medium">React-Nest Ultimate Template</span>
-            </div>
-            <p className="text-sm text-gray-600">
-              &copy; 2024 React-Nest Template. Built with ❤️ for developers.
+            </motion.div>
+            <p className="text-sm text-gray-600 flex items-center gap-2">
+              &copy; 2024 React-Nest Template. Built with 
+              <span className="text-red-500">❤️</span> 
+              for developers.
             </p>
           </div>
         </div>
