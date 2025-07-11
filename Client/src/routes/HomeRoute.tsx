@@ -7,23 +7,35 @@ import { Badge } from '@/components/ui/badge';
 import { useAuth0 } from "@auth0/auth0-react";
 import LanguageSwitcher from '@/components/Molecules/LanguageSwitcher';
 import { 
-  Zap, 
-  Shield, 
-  Palette, 
-  Database, 
-  Smartphone, 
-  Code, 
-  Globe,
-  Layers,
-  Server,
-  Sparkles,
-  GitBranch,
-  Cpu,
-  Settings,
-  CheckCircle,
   ArrowRight,
-  ExternalLink
+  ExternalLink,
+  CheckCircle,
+  Settings,
+  Layers,
+  Smartphone,
+  Globe,
+  Database,
+  Shield,
+  Cpu,
+  Code
 } from 'lucide-react';
+import {
+  SiReact,
+  SiNestjs,
+  SiTypescript,
+  SiAuth0,
+  SiTailwindcss,
+  SiVite,
+  SiRedux,
+  SiFramer,
+  SiAxios,
+  SiNodedotjs,
+  SiEslint,
+  SiPrettier,
+  SiGit,
+  SiGithub,
+  SiDocker
+} from 'react-icons/si';
 
 export default function HomeRoute() {
   const navigate = useNavigate();
@@ -55,51 +67,102 @@ export default function HomeRoute() {
   const techStack = [
     {
       name: "React 19",
-      icon: <Code className="w-6 h-6" />,
+      icon: <SiReact className="w-6 h-6" />,
       color: "from-blue-400 to-blue-600",
-      description: "Latest React with hooks, suspense, and concurrent features"
+      description: "Latest React with hooks, suspense, and concurrent features",
+      officialColor: "#61DAFB"
     },
     {
       name: "NestJS",
-      icon: <Server className="w-6 h-6" />,
+      icon: <SiNestjs className="w-6 h-6" />,
       color: "from-red-400 to-red-600",
-      description: "Enterprise-grade Node.js backend framework"
+      description: "Enterprise-grade Node.js backend framework",
+      officialColor: "#E0234E"
     },
     {
       name: "TypeScript",
-      icon: <Code className="w-6 h-6" />,
+      icon: <SiTypescript className="w-6 h-6" />,
       color: "from-blue-500 to-blue-700",
-      description: "Type-safe development with modern ES features"
+      description: "Type-safe development with modern ES features",
+      officialColor: "#3178C6"
     },
     {
       name: "Auth0",
-      icon: <Shield className="w-6 h-6" />,
+      icon: <SiAuth0 className="w-6 h-6" />,
       color: "from-orange-400 to-orange-600",
-      description: "Enterprise authentication and authorization"
+      description: "Enterprise authentication and authorization",
+      officialColor: "#EB5424"
     },
     {
       name: "Tailwind CSS",
-      icon: <Palette className="w-6 h-6" />,
+      icon: <SiTailwindcss className="w-6 h-6" />,
       color: "from-teal-400 to-teal-600",
-      description: "Utility-first CSS framework for rapid UI development"
+      description: "Utility-first CSS framework for rapid UI development",
+      officialColor: "#06B6D4"
     },
     {
       name: "Vite",
-      icon: <Zap className="w-6 h-6" />,
+      icon: <SiVite className="w-6 h-6" />,
       color: "from-purple-400 to-purple-600",
-      description: "Lightning-fast build tool with HMR"
+      description: "Lightning-fast build tool with HMR",
+      officialColor: "#646CFF"
     },
     {
       name: "Redux Toolkit",
-      icon: <Database className="w-6 h-6" />,
+      icon: <SiRedux className="w-6 h-6" />,
       color: "from-violet-400 to-violet-600",
-      description: "Predictable state management with modern Redux"
+      description: "Predictable state management with modern Redux",
+      officialColor: "#764ABC"
     },
     {
       name: "Framer Motion",
-      icon: <Sparkles className="w-6 h-6" />,
+      icon: <SiFramer className="w-6 h-6" />,
       color: "from-pink-400 to-pink-600",
-      description: "Production-ready motion library for React"
+      description: "Production-ready motion library for React",
+      officialColor: "#0055FF"
+    }
+  ];
+
+  const additionalTechnologies = [
+    {
+      name: "Node.js",
+      icon: <SiNodedotjs className="w-5 h-5" />,
+      color: "#339933"
+    },
+    {
+      name: "Axios",
+      icon: <SiAxios className="w-5 h-5" />,
+      color: "#5A29E4"
+    },
+    {
+      name: "ESLint",
+      icon: <SiEslint className="w-5 h-5" />,
+      color: "#4B32C3"
+    },
+    {
+      name: "Prettier",
+      icon: <SiPrettier className="w-5 h-5" />,
+      color: "#F7B93E"
+    },
+    {
+      name: "Git",
+      icon: <SiGit className="w-5 h-5" />,
+      color: "#F05032"
+    },
+    {
+      name: "GitHub",
+      icon: <SiGithub className="w-5 h-5" />,
+      color: "#181717"
+    },
+    {
+      name: "VS Code",
+      icon: <Code className="w-5 h-5" />,
+      color: "#007ACC"
+    },
+    {
+      name: "Docker",
+      icon: <SiDocker className="w-5 h-5" />,
+      color: "#2496ED"
     }
   ];
 
@@ -146,6 +209,7 @@ export default function HomeRoute() {
     {
       name: "Client (React)",
       path: "/Client",
+      icon: <SiReact className="w-5 h-5" style={{ color: "#61DAFB" }} />,
       items: [
         "📦 components/ - Atomic design components",
         "🎣 hooks/ - Custom React hooks",
@@ -159,6 +223,7 @@ export default function HomeRoute() {
     {
       name: "Server (NestJS)",
       path: "/Server",
+      icon: <SiNestjs className="w-5 h-5" style={{ color: "#E0234E" }} />,
       items: [
         "🛡️ auth0/ - Authentication module",
         "👤 user/ - User management",
@@ -391,7 +456,8 @@ export default function HomeRoute() {
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {/* Main Tech Stack */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             {techStack.map((tech, index) => (
               <motion.div
                 key={index}
@@ -402,8 +468,10 @@ export default function HomeRoute() {
                 whileHover={{ scale: 1.05 }}
               >
                 <Card className="p-6 text-center hover:shadow-lg transition-all duration-300 border-0 shadow-md">
-                  <div className={`w-12 h-12 bg-gradient-to-br ${tech.color} rounded-lg flex items-center justify-center mx-auto mb-4 text-white`}>
-                    {tech.icon}
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: tech.officialColor }}>
+                    <div className="text-white">
+                      {tech.icon}
+                    </div>
                   </div>
                   <h3 className="font-semibold text-gray-800 mb-2">{tech.name}</h3>
                   <p className="text-sm text-gray-600">{tech.description}</p>
@@ -411,6 +479,37 @@ export default function HomeRoute() {
               </motion.div>
             ))}
           </div>
+
+          {/* Additional Technologies */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <h3 className="text-xl font-semibold text-gray-800 mb-6">
+              Developer Tools & More
+            </h3>
+            <div className="flex flex-wrap justify-center gap-4">
+              {additionalTechnologies.map((tech, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.1 }}
+                  className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-200"
+                >
+                  <div style={{ color: tech.color }}>
+                    {tech.icon}
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">{tech.name}</span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -444,7 +543,7 @@ export default function HomeRoute() {
                 <Card className="h-full border-0 shadow-md">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <GitBranch className="w-5 h-5" />
+                      {section.icon}
                       {section.name}
                     </CardTitle>
                     <CardDescription>
