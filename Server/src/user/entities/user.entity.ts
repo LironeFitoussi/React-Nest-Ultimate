@@ -43,6 +43,3 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-// Add index for better performance when looking up by Auth0 ID
-UserSchema.index({ auth0Id: 1 }, { sparse: true });

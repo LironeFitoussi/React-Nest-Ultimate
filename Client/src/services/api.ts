@@ -7,7 +7,7 @@ import type {
   ErrorResponseDto
 } from '@/types/dto';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
 
 // Auth0 token getter - this will be set by the app
 let getAccessTokenFn: (() => Promise<string>) | null = null;
@@ -23,7 +23,8 @@ export const getAccessToken = async () => {
     }
     const token = await getAccessTokenFn();
     return token;
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Failed to get access token:', error);
     return null;
   }
 };

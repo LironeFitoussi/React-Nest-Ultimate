@@ -41,7 +41,7 @@ export default function HomeRoute() {
                 </Button>
               ) : (
                 <div className="flex gap-2">
-                  <Button onClick={() => navigate('/example')}>
+                  <Button onClick={() => navigate('/dashboard')}>
                     Dashboard
                   </Button>
                   <Button onClick={() => navigate('/test')} variant="outline">

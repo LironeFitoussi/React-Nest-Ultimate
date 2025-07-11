@@ -1,103 +1,39 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  HttpStatus,
-  HttpCode,
-  NotFoundException,
-  ConflictException,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { MongoError } from 'mongodb';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createUserDto: CreateUserDto) {
-    try {
-      const user = await this.userService.create(createUserDto);
-      return {
-        success: true,
-        data: user,
-        message: 'User created successfully',
-      };
-    } catch (error) {
-      // If duplicate key error (email already exists)
-      if (error instanceof MongoError && error.code === 11000) {
-        throw new ConflictException('Email already exists');
-      }
-      throw error;
-    }
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
 
   @Get()
-  async findAll() {
-    const users = await this.userService.findAll();
-    return {
-      success: true,
-      data: users,
-      message: 'Users retrieved successfully',
-    };
+  findAll() {
+    return this.userService.findAll();
   }
 
   @Get('email/:email')
-  async findByEmail(@Param('email') email: string) {
-    try {
-      const user = await this.userService.findByEmail(email);
-      return {
-        success: true,
-        data: user,
-        message: 'User found successfully',
-      };
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error; // Let NestJS handle the 404
-      }
-      throw error;
-    }
+  findByEmail(@Param('email') email: string) {
+    return this.userService.findByEmail(email);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const user = await this.userService.findOne(+id);
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
-    }
-    return {
-      success: true,
-      data: user,
-      message: 'User found successfully',
-    };
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(+id);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    const user = await this.userService.update(+id, updateUserDto);
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
-    }
-    return {
-      success: true,
-      data: user,
-      message: 'User updated successfully',
-    };
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id') id: string) {
-    const user = await this.userService.remove(+id);
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
-    }
+  remove(@Param('id') id: string) {
+    return this.userService.remove(+id);
   }
 }

@@ -1,8 +1,6 @@
-import { useEffect } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootState, AppDispatch } from '../store';
-import { fetchUserByEmail, resetUser } from '../store/slices/userSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { clearUser } from '@/store/slices/userSlice';
+import type { User, CreateUser } from '@/types';
 
 // React Query
 import { useQuery } from '@tanstack/react-query';
@@ -10,36 +8,21 @@ import { useQuery } from '@tanstack/react-query';
 // API
 import { getUserRegex, createUser } from '@/api/userService';
 
-// Types
-import type { User, CreateUser } from '@/types';
+export function useUser() {
+  const dispatch = useAppDispatch();
+  const { currentUser, isLoading, error } = useAppSelector((state) => state.user);
 
-export const useUser = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { user: auth0User, isAuthenticated, isLoading: auth0Loading } = useAuth0();
-  const userData = useSelector((state: RootState) => state.user);
-
-  useEffect(() => {
-    if (
-      isAuthenticated &&
-      auth0User?.email &&
-      userData.user?.email !== auth0User.email // Only fetch if not already loaded
-    ) {
-      dispatch(fetchUserByEmail({
-        email: auth0User.email,
-        auth0User // Pass the entire Auth0 user object
-      }));
-    } else if (!isAuthenticated && userData.user?.email) {
-      dispatch(resetUser());
-    }
-  }, [isAuthenticated, auth0User, dispatch, userData.user?.email]); // Updated dependency array to include full auth0User
+  const logout = () => {
+    dispatch(clearUser());
+  };
 
   return {
-    isLoading: auth0Loading || userData.status === 'loading',
-    isAuthenticated,
-    user: userData.user,
-    error: userData.error,
+    user: currentUser,
+    isLoading,
+    error,
+    logout,
   };
-};
+}
 
 export const useUserRegex = (regex: string) => {
   const { data, isLoading, error } = useQuery({

@@ -4,7 +4,8 @@ import type { ApiResponseDto } from '@/types/dto';
 import { User as Auth0User } from '@auth0/auth0-react';
 import { AxiosError } from 'axios';
 
-const endpoint = '/api/v1/users';
+// The global prefix 'api/v1' is already set in the server's main.ts
+const endpoint = '/users';
 
 // --- CRUD API functions ---
 export const getAllUsers = async (): Promise<User[]> => {
@@ -15,52 +16,39 @@ export const getAllUsers = async (): Promise<User[]> => {
 // Get user by email
 export const getUserByEmail = async (email: string, auth0UserData?: Auth0User): Promise<ApiResponseDto<User>> => {
   try {
-    const response = await axiosInstance.get<ApiResponseDto<User>>(`${endpoint}/email/${email}`);
-    const { data } = response;
-    
-    // Handle empty response as "not found"
-    if (!data || !data.success || !data.data) {
-      if (auth0UserData) {
-        // Create new user object from Auth0 data
-        const newUser: CreateUser = {
-          email: auth0UserData.email || '',
-          firstName: auth0UserData.given_name || auth0UserData.name?.split(' ')[0] || '',
-          lastName: auth0UserData.family_name || auth0UserData.name?.split(' ').slice(1).join(' ') || '',
-          phone: '',
-          role: 'user', // Default role
-        };
+    const response = await axiosInstance.get<User>(`${endpoint}/email/${email}`);
 
-        // Create the user
+    return {
+      data: response.data,
+      message: 'User found successfully',
+      success: true
+    };
+  } catch (error) {
+    // If we get a 404 and have Auth0 data, create the user
+    if (error instanceof AxiosError && error.response?.status === 404 && auth0UserData) {
+      console.log('👤 Creating new user:', auth0UserData.email);
+      
+      // Create new user from Auth0 data
+      const newUser: CreateUser = {
+        email: auth0UserData.email || '',
+        firstName: auth0UserData.given_name || auth0UserData.name?.split(' ')[0] || '',
+        lastName: auth0UserData.family_name || auth0UserData.name?.split(' ').slice(1).join(' ') || '',
+        phone: '',
+        role: 'user',
+        auth0Id: auth0UserData.sub
+      };
+
+      try {
         const createdUser = await createUser(newUser);
         return {
           data: createdUser,
           message: 'User created successfully',
           success: true
         };
+      } catch (createError) {
+        console.error('❌ User creation failed:', createError instanceof AxiosError ? createError.response?.data?.message : createError);
+        throw createError;
       }
-      
-      throw new Error('User not found and no Auth0 data provided for creation');
-    }
-
-    return data;
-  } catch (error) {
-    if (error instanceof AxiosError && error.response?.status === 404 && auth0UserData) {
-      // Create new user object from Auth0 data
-      const newUser: CreateUser = {
-        email: auth0UserData.email || '',
-        firstName: auth0UserData.given_name || auth0UserData.name?.split(' ')[0] || '',
-        lastName: auth0UserData.family_name || auth0UserData.name?.split(' ').slice(1).join(' ') || '',
-        phone: '',
-        role: 'user', // Default role
-      };
-
-      // Create the user
-      const createdUser = await createUser(newUser);
-      return {
-        data: createdUser,
-        message: 'User created successfully',
-        success: true
-      };
     }
     
     throw error;
@@ -76,6 +64,7 @@ export const getUserRegex = async (regex: string): Promise<User[]> => {
 // Create user
 export const createUser = async (user: CreateUser): Promise<User> => {
   const { data } = await axiosInstance.post<User>(endpoint, user);
+  console.log('✅ User created:', { email: data.email, id: data._id });
   return data;
 };
 

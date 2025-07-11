@@ -1,35 +1,40 @@
-import { useAuth0 } from '@auth0/auth0-react'
-import { useEffect, useState } from 'react'
+import { useAuth0 } from '@auth0/auth0-react';
+import { useEffect, useState } from 'react';
 
-export const useAuth = () => {
-  const auth0 = useAuth0()
-  const [hasCheckedStorage, setHasCheckedStorage] = useState(false)
+interface AuthState {
+  auth0IsAuthenticated: boolean;
+  hasCheckedStorage: boolean;
+  hasLocalToken: boolean;
+  finalIsAuthenticated: boolean;
+}
+
+export function useAuth() {
+  const {
+    user,
+    isAuthenticated: auth0IsAuthenticated,
+    isLoading,
+    getAccessTokenSilently,
+  } = useAuth0();
+
+  const [authState, setAuthState] = useState<AuthState>({
+    auth0IsAuthenticated: false,
+    hasCheckedStorage: false,
+    hasLocalToken: false,
+    finalIsAuthenticated: false,
+  });
 
   useEffect(() => {
-    if (hasCheckedStorage) return
-
-    const token = localStorage.getItem('auth0_token')
-    const idToken = localStorage.getItem('auth0_id_token')
-    const user = localStorage.getItem('auth0_user')
-    const expiresAt = localStorage.getItem('auth0_expires_at')
-
-    // console.log(JSON.parse(user || '{}'));
-    
-    if (token && idToken && user && expiresAt) {
-      if (Date.now() > parseInt(expiresAt)) {
-        // Clear expired tokens
-        localStorage.removeItem('auth0_token')
-        localStorage.removeItem('auth0_id_token')
-        localStorage.removeItem('auth0_user')
-        localStorage.removeItem('auth0_expires_at')
-      }
-    }
-
-    setHasCheckedStorage(true)
-  }, [hasCheckedStorage])
+    setAuthState(prev => ({
+      ...prev,
+      auth0IsAuthenticated,
+      finalIsAuthenticated: auth0IsAuthenticated,
+    }));
+  }, [auth0IsAuthenticated]);
 
   return {
-    ...auth0,
-    isAuthenticated: auth0.isAuthenticated || (hasCheckedStorage && !!localStorage.getItem('auth0_token'))
-  }
+    user,
+    isAuthenticated: authState.finalIsAuthenticated,
+    isLoading,
+    getAccessTokenSilently,
+  };
 } 

@@ -14,7 +14,7 @@ export default function Layout() {
   
   const navigationItems = [
     { href: '/', label: 'Home', icon: Home },
-    { href: '/test', label: 'Test', icon: HelpCircle },
+    { href: '/dashboard', label: 'Dashboard', icon: HelpCircle },
   ];
 
   const isActive = (href: string) => {

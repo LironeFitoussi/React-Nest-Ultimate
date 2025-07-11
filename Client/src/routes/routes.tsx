@@ -8,7 +8,7 @@ import Layout from './_layout';
 import HomeRoute from './HomeRoute';
 import AuthRoute from './AuthRoute';
 import ErrorPage from './ErrorPage';
-import ExampleRoute from '@/routes/ExampleRoute';
+import DashboardRoute from '@/routes/DashboardRoute';
 import TestRoute from '@/routes/TestRoute';
 
 // Loaders
@@ -23,8 +23,8 @@ export const router = createBrowserRouter([
         element: <HomeRoute />,
       },
       {
-        path: 'example',
-        element: <ProtectedRoute element={<ExampleRoute />} />,
+        path: 'dashboard',
+        element: <ProtectedRoute element={<DashboardRoute />} />,
       },
       {
         path: 'test',

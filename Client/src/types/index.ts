@@ -9,6 +9,7 @@ export type User = {
   state?: string;
   zip?: string;
   role: string;
+  auth0Id?: string;
 };
 
 export type CreateUser = Omit<User, '_id'>;
