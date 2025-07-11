@@ -52,7 +52,7 @@ export const PageLoader: React.FC<{ text?: string }> = ({ text = "Loading..." })
       <div className="w-16 h-16 bg-blue-500 rounded-lg flex items-center justify-center mx-auto mb-4 animate-pulse">
         <span className="text-white font-bold text-xl">FF</span>
       </div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">FinanceFlow</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-2">My App</h1>
       <p className="text-gray-600">{text}</p>
     </div>
   </div>
