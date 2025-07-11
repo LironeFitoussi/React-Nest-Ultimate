@@ -97,7 +97,7 @@ export default function SignInForm({switchMode}: {switchMode: () => void}) {
   if (isAuthenticated && user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted px-4">
-        <Card className="w-full max-w-sm shadow-lg rounded-2xl">
+        <Card className="w-full max-w-md lg:max-w-lg shadow-lg rounded-2xl">
           <CardHeader>
             <CardTitle className="text-2xl text-center">Welcome Back!</CardTitle>
           </CardHeader>
@@ -123,7 +123,7 @@ export default function SignInForm({switchMode}: {switchMode: () => void}) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted px-4">
-      <Card className="w-full max-w-sm shadow-lg rounded-2xl">
+      <Card className="w-full max-w-md lg:max-w-lg shadow-lg rounded-2xl">
         <CardHeader>
           <CardTitle className="text-2xl text-center">Sign In</CardTitle>
         </CardHeader>

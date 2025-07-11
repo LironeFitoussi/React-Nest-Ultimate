@@ -23,7 +23,7 @@ export default function AuthRoute() {
     
     // Show loading while auth state is being determined
     if (isLoading) {
-        return <div className="h-screen flex items-center justify-center">
+        return <div className="min-h-screen w-full flex items-center justify-center">
             <div className="text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
                 <p className="mt-2 text-gray-600">Checking authentication...</p>
@@ -39,7 +39,7 @@ export default function AuthRoute() {
     }
     
     return (
-        <div className="h-screen">
+        <div className="min-h-screen w-full">
             {isSignIn ? <SignInForm switchMode={handleSwitchMode}/> : <SignUpForm switchMode={handleSwitchMode}/>}
         </div>
     )

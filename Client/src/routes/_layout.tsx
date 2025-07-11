@@ -38,7 +38,7 @@ export default function Layout() {
   // Show loading state while authentication is being checked
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen w-full flex items-center justify-center">
         <PageLoader text="Loading your session..." />
       </div>
     );

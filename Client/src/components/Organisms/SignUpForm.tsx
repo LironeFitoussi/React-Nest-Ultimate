@@ -123,7 +123,7 @@ export default function SignUpForm({switchMode}: {switchMode: () => void}) {
 
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted px-4">
-        <Card className="w-full max-w-sm shadow-lg rounded-2xl">
+        <Card className="w-full max-w-md lg:max-w-lg shadow-lg rounded-2xl">
           <CardHeader>
             <CardTitle className="text-2xl text-center">Welcome!</CardTitle>
           </CardHeader>
@@ -153,7 +153,7 @@ export default function SignUpForm({switchMode}: {switchMode: () => void}) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted px-4">
-      <Card className="w-full max-w-sm rounded-2xl shadow-lg">
+      <Card className="w-full max-w-md lg:max-w-lg rounded-2xl shadow-lg">
         <CardHeader>
           <CardTitle className="text-2xl text-center">Create an Account</CardTitle>
         </CardHeader>

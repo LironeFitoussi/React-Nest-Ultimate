@@ -47,7 +47,7 @@ export const InlineSpinner: React.FC<{ size?: 'sm' | 'md'; className?: string }>
 
 // Page-level loading state
 export const PageLoader: React.FC<{ text?: string }> = ({ text = "Loading..." }) => (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-slate-100">
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-slate-100 w-full">
     <div className="text-center">
       <div className="w-16 h-16 bg-blue-500 rounded-lg flex items-center justify-center mx-auto mb-4 animate-pulse">
         <span className="text-white font-bold text-xl">FF</span>
